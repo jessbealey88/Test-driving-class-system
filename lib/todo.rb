@@ -1,19 +1,24 @@
 # File: lib/todo.rb
 class Todo
-    def initialize(task) # task is a string
-      @todo = task
-      @done = false
-    end
-  
-    def task
-      @todo
-    end
-  
-    def mark_done!
-     @done = true
-    end
-  
-    def done?
-      @done
+  def initialize(task) 
+    fail "Please enter a task to add to the list" if task.empty?
+    @todo = [task, ""]
+  end
+
+  def task
+    @todo[0]
+  end
+
+  def mark_done!
+    @todo[1]="done"
+  end
+
+  def done?
+    if @todo.include?("done")
+       true
+    else
+       false
     end
   end
+end
+

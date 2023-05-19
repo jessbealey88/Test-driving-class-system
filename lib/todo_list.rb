@@ -1,32 +1,47 @@
 # File: lib/todo_list.rb
+require_relative 'todo'
 class TodoList
-    def initialize
-        @todos = []  
-        @completed_todos = []
+  def initialize
+    @todos = []  
+  end
+
+  def add(todo) # todo is an instance of Todo
+    @todos << todo
+  end
+
+  def incomplete
+    incomplete_status = @todos.filter do |todo| 
+      todo.done? == false
     end
-  
-    def add(todo) # todo is an instance of Todo
-      @todos << todo
+    incomplete_status.map do |todo|
+      todo.task 
     end
-  
-    def incomplete
-      return @todos
+    return incomplete_status
+  end
+
+  def complete
+    complete_status = @todos.filter do |todo| 
+      todo.done? == true
     end
-  
-    def complete
-        @todos.map do |todo|
-        if todo.done? == true
-          @completed_todos << todo
-          @todos.delete(todo)
-        end
-        return @completed_todos
-      end
-    end
-  
-    def give_up!
-      @completed_todos << @todos
-      return @completed_todos
+     complete_status.map do |todo|
+       todo.task 
+     end
+     p complete_status
+  end
+
+  def give_up!
+    @todos.each do |todo|
+      todo.mark_done!
     end
   end
-  
+end
+
+todo_list = TodoList.new
+todo_1 = Todo.new("laundry") 
+todo_list.add(todo_1)
+todo_2 = Todo.new("shopping")
+todo_list.add(todo_2)  
+todo_list.give_up!
+todo_list.complete
+
   
